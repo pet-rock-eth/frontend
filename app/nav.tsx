@@ -1,4 +1,3 @@
-"use client";
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import { motion } from "framer-motion"
@@ -34,14 +33,15 @@ function NavItem({
 export default function Nav() {
   const { open: openWeb3Modal, isOpen: isWeb3ModalOpen } = useWeb3Modal();
   const { address, isConnected } = useAccount()
+  const pathname = usePathname()
   return (
     <>
       <nav className="">
         <div className="container mx-auto px-6 py-2 flex justify-center items-center">
           <NavItem href='/'>寵物石頭</NavItem>
-          <NavItem href='/my-rock'>我ㄉ石頭</NavItem>
-          <NavItem href='/school'>石頭學校</NavItem>
-          <NavItem href='/columbarium'>石頭靈骨塔</NavItem>
+          <NavItem href='/my-rock/'>我ㄉ石頭</NavItem>
+          <NavItem href='/school/'>石頭學校</NavItem>
+          <NavItem href='/columbarium/'>石頭靈骨塔</NavItem>
           <div className='flex-1' />
           <a className="flex items-center gap-2 px-3 py-2 rounded-xl text-xl cursor-pointer
           hover:bg-white hover:bg-opacity-10"
