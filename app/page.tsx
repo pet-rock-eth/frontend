@@ -13,12 +13,12 @@ export default function Home() {
       <div className="flex justify-center mt-8">
         {
           isConnected
-            ? <a className="flex items-center gap-2 px-3 py-2 rounded-xl text-xl cursor-pointer
-          bg-black bg-opacity-10 hover:bg-opacity-20" >
+            ? <a className="flex items-center gap-2 px-8 py-6 rounded-xl text-2xl cursor-pointer shadow-lg
+          bg-blue-500 bg-opacity-20 hover:bg-opacity-40" >
               鑄造石頭
             </a>
-            : <a className="flex items-center gap-2 px-3 py-2 rounded-xl text-xl cursor-pointer
-          hover:bg-white hover:bg-opacity-10"
+            : <a className="flex items-center gap-2 px-8 py-3 rounded-xl text-2xl cursor-pointer shadow-lg
+            bg-blue-500 bg-opacity-20 hover:bg-opacity-40"
               onClick={e => openWeb3Modal()}>
               <i className='bx bx-wallet' ></i>
               {isWeb3ModalOpen ? <span>正在連接...</span> :
