@@ -23,8 +23,6 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18
-    - name: Write git sha to file
-      run: sed -i 's/{git-sha}/${{ github.sha }}/g' index.html
     - name: Install npm packages
       run: npm install
     - name: Build Pages
