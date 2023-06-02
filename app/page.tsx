@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import { useWeb3Modal } from "@web3modal/react";
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
+import { goerli } from "wagmi/chains";
 import { writeContract, waitForTransaction } from "@wagmi/core";
 import { contractAddress, contractABI } from "../contract/stone";
 export default function Home() {
@@ -16,13 +17,23 @@ export default function Home() {
         abi: contractABI,
         functionName: "mint",
         args: [address],
+        chainId: goerli.id,
       });
       const data = await waitForTransaction({ hash });
       console.log(data);
       alert("鑄造成功");
     } catch (e) {
-      alert("鑄造失敗");
       console.log(e);
+      //@ts-ignore
+      if (e.toString().includes("ChainMismatchError")) {
+        alert("請切換到 Goerli 測試網");
+      }
+      //@ts-ignore
+      else if (e.toString().includes("TransactionExecutionError")) {
+        alert("請授權");
+      } else {
+        alert("鑄造失敗");
+      }
     } finally {
       setMinting(false);
     }
@@ -35,16 +46,12 @@ export default function Home() {
       <div className="flex justify-center mt-8">
         {isConnected ? (
           minting ? (
-            <a
-              className="flex items-center gap-2 px-8 py-6 rounded-xl text-2xl cursor-pointer shadow-lg
-      bg-blue-800 bg-opacity-20"
-            >
+            <a className="flex items-center gap-2 px-8 py-6 rounded-xl text-2xl cursor-pointer bg-blue-800 bg-opacity-10">
               <i className="bx bx-loader-alt animate-spin"></i> 鑄造中...
             </a>
           ) : (
             <a
-              className="flex items-center gap-2 px-8 py-6 rounded-xl text-2xl cursor-pointer shadow-lg
-      bg-blue-500 bg-opacity-20 hover:bg-opacity-40"
+              className="flex items-center gap-2 px-8 py-6 rounded-xl text-2xl cursor-pointer shadow-lg bg-blue-500 bg-opacity-20 hover:bg-opacity-40"
               onClick={(e) => mintStone()}
             >
               鑄造石頭
