@@ -5,10 +5,17 @@ import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import { goerli } from "wagmi/chains";
 import { writeContract, waitForTransaction } from "@wagmi/core";
 import { contractAddress, contractABI } from "../contract/stone";
+import { toast } from "react-toastify";
 export default function Home() {
   const { open: openWeb3Modal, isOpen: isWeb3ModalOpen } = useWeb3Modal();
   const { address, isConnected } = useAccount();
   const [minting, setMinting] = useState(false);
+  function showToast(
+    msg: string,
+    type: "success" | "error" | "info" | "warning" = "success"
+  ) {
+    toast[type](msg);
+  }
   async function mintStone() {
     setMinting(true);
     try {
@@ -21,18 +28,18 @@ export default function Home() {
       });
       const data = await waitForTransaction({ hash });
       console.log(data);
-      alert("鑄造成功");
+      showToast("鑄造成功");
     } catch (e) {
       console.log(e);
       //@ts-ignore
       if (e.toString().includes("ChainMismatchError")) {
-        alert("請切換到 Goerli 測試網");
+        showToast("請切換到 Goerli 測試網", "error");
       }
       //@ts-ignore
       else if (e.toString().includes("TransactionExecutionError")) {
-        alert("請授權");
+        showToast("請授權合約", "error");
       } else {
-        alert("鑄造失敗");
+        showToast("鑄造失敗", "error");
       }
     } finally {
       setMinting(false);
@@ -46,7 +53,7 @@ export default function Home() {
       <div className="flex justify-center mt-8">
         {isConnected ? (
           minting ? (
-            <a className="flex items-center gap-2 px-8 py-6 rounded-xl text-2xl cursor-pointer bg-blue-800 bg-opacity-10">
+            <a className="flex items-center gap-2 px-8 py-6 rounded-xl text-2xl cursor-pointer bg-blue-500 bg-opacity-10  shadow-lg ring-1 ring-white ring-opacity-10">
               <i className="bx bx-loader-alt animate-spin"></i> 鑄造中...
             </a>
           ) : (

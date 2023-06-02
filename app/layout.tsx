@@ -7,6 +7,9 @@ import {
   w3mConnectors,
   w3mProvider,
 } from "@web3modal/ethereum";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Web3Modal } from "@web3modal/react";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { goerli } from "wagmi/chains";
@@ -61,6 +64,18 @@ export default function RootLayout({
         <WagmiConfig config={wagmiConfig}>
           <Nav />
           {children}
+          <ToastContainer
+            position="bottom-center"
+            autoClose={3000}
+            hideProgressBar
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
         </WagmiConfig>
         <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
       </body>
