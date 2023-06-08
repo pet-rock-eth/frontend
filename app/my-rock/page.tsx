@@ -6,6 +6,30 @@ import { readContract } from "@wagmi/core";
 import { contractAddress, contractABI } from "../../contract/stone";
 import { motion } from "framer-motion";
 import CheckConnected from "../../components/checkConnected";
+function Rock({ rock }: any) {
+  return (
+    <motion.div
+      key={rock.id}
+      className="flex flex-col justify-center items-center bg-white bg-opacity-10 rounded-[16px] m-2 p-2 cursor-pointer"
+      layout
+      layoutId={`rock-${rock.id}`}
+    >
+      <motion.img
+        src={rock.image}
+        className="w-32 h-32 lg:w-64 lg:h-64 rounded-[8px]"
+        layout
+        layoutId={`rock-img-${rock.id}`}
+      />
+      <motion.div
+        className="text-white text-opacity-80 text-center mt-2"
+        layout
+        layoutId={`rock-name-${rock.id}`}
+      >
+        {rock.name}
+      </motion.div>
+    </motion.div>
+  );
+}
 export default function MyRock() {
   const { address, isConnected } = useAccount();
   const [rocks, setRocks] = useState<object[]>([]);
@@ -52,26 +76,7 @@ export default function MyRock() {
         ) : (
           <div className="flex flex-wrap justify-center mt-4">
             {rocks.map((rock: any) => (
-              <motion.div
-                key={rock.id}
-                className="flex flex-col justify-center items-center bg-white bg-opacity-10 rounded-[16px] m-2 p-2 cursor-pointer"
-                layout
-                layoutId={`rock-${rock.id}`}
-              >
-                <motion.img
-                  src={rock.image}
-                  className="w-32 h-32 lg:w-64 lg:h-64 rounded-[8px]"
-                  layout
-                  layoutId={`rock-img-${rock.id}`}
-                />
-                <motion.div
-                  className="text-white text-opacity-80 text-center mt-2"
-                  layout
-                  layoutId={`rock-name-${rock.id}`}
-                >
-                  {rock.name}
-                </motion.div>
-              </motion.div>
+              <Rock rock={rock} key={rock.id} />
             ))}
           </div>
         )}
