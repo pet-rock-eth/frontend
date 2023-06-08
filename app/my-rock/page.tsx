@@ -24,7 +24,6 @@ export default function MyRock() {
     });
     //@ts-ignore
     let ids = data.map((x) => parseInt(x)).filter((x) => x > 0);
-    //https://ipfs.io/ipfs/bafybeibkrtttj2mtjmuwu26l7dlbmvt5k5qgah7qxmhobv3ps5j232tzdy/stone{id}.json
     await Promise.all(
       //@ts-ignore
       ids.map(async (id) => {

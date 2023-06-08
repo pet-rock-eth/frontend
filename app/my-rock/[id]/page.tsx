@@ -16,28 +16,31 @@ export default async function Rock() {
   const rock = await getRock();
   return rock ? (
     <>
-      <div className="container">
-        <motion.div
-          key={rock.id}
-          className="flex flex-col justify-center items-center bg-white bg-opacity-10 rounded-[16px] m-2 p-2 cursor-pointer"
+      <motion.div
+        key={rock.id}
+        className="flex flex-col lg:flex-row gap-4 bg-white bg-opacity-10 rounded-[16px] m-2 p-2 container"
+        layout
+        layoutId={`rock-${rock.id}`}
+      >
+        <motion.img
+          src={rock.image}
+          className="w-32 h-32 lg:w-64 lg:h-64 rounded-[8px]"
           layout
-          layoutId={`rock-${rock.id}`}
-        >
-          <motion.img
-            src={rock.image}
-            className="w-32 h-32 lg:w-64 lg:h-64 rounded-[8px]"
-            layout
-            layoutId={`rock-img-${rock.id}`}
-          />
+          layoutId={`rock-img-${rock.id}`}
+        />
+        <div>
           <motion.div
-            className="text-white text-opacity-80 text-center mt-2"
+            className="text-white text-2xl mt-2"
             layout
             layoutId={`rock-name-${rock.id}`}
           >
             {rock.name}
           </motion.div>
-        </motion.div>
-      </div>
+          <motion.div className="text-white mt-2">
+            {rock.description}
+          </motion.div>
+        </div>
+      </motion.div>
     </>
   ) : (
     <div className="flex justify-center items-center h-[512px]">
