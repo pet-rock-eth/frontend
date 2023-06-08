@@ -1,14 +1,15 @@
 "use client";
 import { useAccount } from "wagmi";
-import { useWeb3Modal } from "@web3modal/react";
 import { useEffect, useState } from "react";
 import { goerli } from "wagmi/chains";
 import { readContract } from "@wagmi/core";
 import { contractAddress, contractABI } from "../../contract/stone";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import CheckConnected from "../../components/checkConnected";
 export default function MyRock() {
+  const router = useRouter();
   const { address, isConnected } = useAccount();
-  const { open: openWeb3Modal, isOpen: isWeb3ModalOpen } = useWeb3Modal();
   const [rocks, setRocks] = useState<object[]>([]);
   const [loading, setLoading] = useState(false);
   async function getRocks() {
@@ -27,14 +28,17 @@ export default function MyRock() {
     await Promise.all(
       //@ts-ignore
       ids.map(async (id) => {
+        if (localStorage.getItem(`rock-${id}`)) {
+          return JSON.parse(localStorage.getItem(`rock-${id}`) || "{}");
+        }
         const res = await fetch(
           `https://ipfs.io/ipfs/bafybeibkrtttj2mtjmuwu26l7dlbmvt5k5qgah7qxmhobv3ps5j232tzdy/stone${id}.json`
         );
         const data = await res.json();
+        localStorage.setItem(`rock-${id}`, JSON.stringify(data));
         return data;
       })
     ).then((data) => setRocks(data));
-    console.log(rocks);
     setLoading(false);
   }
   useEffect(() => {
@@ -51,18 +55,27 @@ export default function MyRock() {
         ) : (
           <div className="flex flex-wrap justify-center mt-4">
             {rocks.map((rock: any) => (
-              <div
+              <motion.div
                 key={rock.id}
-                className="flex flex-col justify-center items-center bg-white bg-opacity-10 rounded-[16px] m-2 p-2"
+                className="flex flex-col justify-center items-center bg-white bg-opacity-10 rounded-[16px] m-2 p-2 cursor-pointer"
+                layout
+                layoutId={`rock-${rock.id}`}
+                onClick={(e) => router.push(`/my-rock/${rock.id}`)}
               >
-                <img
+                <motion.img
                   src={rock.image}
                   className="w-32 h-32 lg:w-64 lg:h-64 rounded-[8px]"
+                  layout
+                  layoutId={`rock-img-${rock.id}`}
                 />
-                <div className="text-white text-opacity-80 text-center mt-2">
+                <motion.div
+                  className="text-white text-opacity-80 text-center mt-2"
+                  layout
+                  layoutId={`rock-name-${rock.id}`}
+                >
                   {rock.name}
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             ))}
           </div>
         )}
