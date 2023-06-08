@@ -2,7 +2,7 @@
 import { useAccount } from "wagmi";
 import { useWeb3Modal } from "@web3modal/react";
 import { motion } from "framer-motion";
-export default function checkConnected({
+export default function CheckConnected({
   children,
 }: {
   children: React.ReactNode;
