@@ -12,35 +12,35 @@ export default function MyRock() {
   const { address, isConnected } = useAccount();
   const [rocks, setRocks] = useState<object[]>([]);
   const [loading, setLoading] = useState(false);
-  async function getRocks() {
-    if (!isConnected) return;
-    setLoading(true);
-    const data = await readContract({
-      address: contractAddress,
-      abi: contractABI,
-      functionName: "findstone",
-      args: [address],
-      chainId: goerli.id,
-    });
-    //@ts-ignore
-    let ids = data.map((x) => parseInt(x)).filter((x) => x > 0);
-    await Promise.all(
-      //@ts-ignore
-      ids.map(async (id) => {
-        if (localStorage.getItem(`rock-${id}`)) {
-          return JSON.parse(localStorage.getItem(`rock-${id}`) || "{}");
-        }
-        const res = await fetch(
-          `https://ipfs.io/ipfs/bafybeibkrtttj2mtjmuwu26l7dlbmvt5k5qgah7qxmhobv3ps5j232tzdy/stone${id}.json`
-        );
-        const data = await res.json();
-        localStorage.setItem(`rock-${id}`, JSON.stringify(data));
-        return data;
-      })
-    ).then((data) => setRocks(data));
-    setLoading(false);
-  }
   useEffect(() => {
+    async function getRocks() {
+      if (!isConnected) return;
+      setLoading(true);
+      const data = await readContract({
+        address: contractAddress,
+        abi: contractABI,
+        functionName: "findstone",
+        args: [address],
+        chainId: goerli.id,
+      });
+      //@ts-ignore
+      let ids = data.map((x) => parseInt(x)).filter((x) => x > 0);
+      await Promise.all(
+        //@ts-ignore
+        ids.map(async (id) => {
+          if (localStorage.getItem(`rock-${id}`)) {
+            return JSON.parse(localStorage.getItem(`rock-${id}`) || "{}");
+          }
+          const res = await fetch(
+            `https://ipfs.io/ipfs/bafybeibkrtttj2mtjmuwu26l7dlbmvt5k5qgah7qxmhobv3ps5j232tzdy/stone${id}.json`
+          );
+          const data = await res.json();
+          localStorage.setItem(`rock-${id}`, JSON.stringify(data));
+          return data;
+        })
+      ).then((data) => setRocks(data));
+      setLoading(false);
+    }
     getRocks();
   }, [isConnected]);
   return (
@@ -59,7 +59,6 @@ export default function MyRock() {
                 className="flex flex-col justify-center items-center bg-white bg-opacity-10 rounded-[16px] m-2 p-2 cursor-pointer"
                 layout
                 layoutId={`rock-${rock.id}`}
-                onClick={(e) => router.push(`/my-rock/${rock.id}`)}
               >
                 <motion.img
                   src={rock.image}
