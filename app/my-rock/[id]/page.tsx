@@ -1,17 +1,19 @@
 "use client";
 import { motion } from "framer-motion";
-type Params = {
-  params: {
-    id: string;
-  };
-};
-
-export default async function Rock({ params }: Params) {
+import { useParams } from "next/navigation";
+export default async function Rock() {
+  const params = useParams();
   const { id } = params;
-  const res = await fetch(
-    `https://ipfs.io/ipfs/bafybeibkrtttj2mtjmuwu26l7dlbmvt5k5qgah7qxmhobv3ps5j232tzdy/stone${id}.json`
-  );
-  const rock = await res.json();
+  async function getRock() {
+    if (localStorage.getItem(`rock-${id}`)) {
+      return JSON.parse(localStorage.getItem(`rock-${id}`) || "{}");
+    }
+    const res = await fetch(
+      `https://ipfs.io/ipfs/bafybeibkrtttj2mtjmuwu26l7dlbmvt5k5qgah7qxmhobv3ps5j232tzdy/stone${id}.json`
+    );
+    return await res.json();
+  }
+  const rock = await getRock();
   return rock ? (
     <>
       <div className="container">
