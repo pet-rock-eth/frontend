@@ -1,4 +1,4 @@
-export const contractAddress = `0x8a845bb29c072c6a0dc27912723460ab849e92c1`
+export const contractAddress = `0x6027426d6bef7b21011f9b6d412224b1cf39aacc`
 export const contractABI = [
   {
     "inputs": [],
@@ -330,6 +330,25 @@ export const contractABI = [
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "findstone",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "id",
         "type": "uint256"
@@ -382,6 +401,25 @@ export const contractABI = [
       }
     ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
+    "name": "get_lock_status",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
