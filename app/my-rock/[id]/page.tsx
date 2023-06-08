@@ -14,11 +14,11 @@ export default async function Rock() {
     return await res.json();
   }
   const rock = await getRock();
-  return rock ? (
-    <>
+  return (
+    <div className="container">
       <motion.div
         key={rock.id}
-        className="flex flex-col lg:flex-row gap-4 bg-white bg-opacity-10 rounded-[16px] m-2 p-2 container"
+        className="flex flex-col lg:flex-row gap-4 bg-white bg-opacity-10 rounded-[16px] m-2 p-2"
         layout
         layoutId={`rock-${rock.id}`}
       >
@@ -30,7 +30,7 @@ export default async function Rock() {
         />
         <div>
           <motion.div
-            className="text-white text-2xl mt-2"
+            className="text-white text-2xl font-bold mt-2"
             layout
             layoutId={`rock-name-${rock.id}`}
           >
@@ -41,10 +41,6 @@ export default async function Rock() {
           </motion.div>
         </div>
       </motion.div>
-    </>
-  ) : (
-    <div className="flex justify-center items-center h-[512px]">
-      <i className="bx bx-loader-alt animate-spin text-4xl"></i>
     </div>
   );
 }
