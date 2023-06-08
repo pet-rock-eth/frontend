@@ -5,10 +5,8 @@ import { goerli } from "wagmi/chains";
 import { readContract } from "@wagmi/core";
 import { contractAddress, contractABI } from "../../contract/stone";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
 import CheckConnected from "../../components/checkConnected";
 export default function MyRock() {
-  const router = useRouter();
   const { address, isConnected } = useAccount();
   const [rocks, setRocks] = useState<object[]>([]);
   const [loading, setLoading] = useState(false);
