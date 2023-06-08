@@ -3,9 +3,9 @@ import { useAccount } from "wagmi";
 import { useWeb3Modal } from "@web3modal/react";
 import { useEffect, useState } from "react";
 import { goerli } from "wagmi/chains";
-import { writeContract, waitForTransaction, readContract } from "@wagmi/core";
+import { readContract } from "@wagmi/core";
 import { contractAddress, contractABI } from "../../contract/stone";
-import { motion } from "framer-motion";
+import CheckConnected from "../../components/checkConnected";
 export default function MyRock() {
   const { address, isConnected } = useAccount();
   const { open: openWeb3Modal, isOpen: isWeb3ModalOpen } = useWeb3Modal();
@@ -43,9 +43,8 @@ export default function MyRock() {
   return (
     <>
       <h1 className="text-4xl text-center mt-2">我ㄉ石頭</h1>
-
-      {isConnected ? (
-        loading ? (
+      <CheckConnected>
+        {loading ? (
           <div className="flex justify-center items-center h-[512px]">
             <i className="bx bx-loader-alt animate-spin text-4xl"></i>
           </div>
@@ -66,24 +65,8 @@ export default function MyRock() {
               </div>
             ))}
           </div>
-        )
-      ) : (
-        <div className="flex flex-col flex-wrap justify-center items-center mt-8">
-          <motion.a
-            className="flex items-center gap-2 px-8 py-3 rounded-xl text-2xl cursor-pointer shadow-lg
-            bg-blue-500 bg-opacity-20 hover:bg-opacity-40"
-            onClick={(e) => openWeb3Modal()}
-            layout
-            layoutId="main-btn"
-          >
-            <i className="bx bx-wallet"></i>
-            {isWeb3ModalOpen ? <span>正在連接...</span> : <span>連接錢包</span>}
-          </motion.a>
-          <h1 className="text-white text-opacity-80 text-center my-2">
-            連接錢包來查看石頭
-          </h1>
-        </div>
-      )}
+        )}
+      </CheckConnected>
     </>
   );
 }
