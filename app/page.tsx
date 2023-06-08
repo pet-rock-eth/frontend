@@ -1,13 +1,15 @@
 "use client";
 import { useState } from "react";
 import { useWeb3Modal } from "@web3modal/react";
-import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import { goerli } from "wagmi/chains";
 import { writeContract, waitForTransaction } from "@wagmi/core";
 import { contractAddress, contractABI } from "../contract/stone";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 export default function Home() {
+  const router = useRouter();
   const { open: openWeb3Modal, isOpen: isWeb3ModalOpen } = useWeb3Modal();
   const { address, isConnected } = useAccount();
   const [minting, setMinting] = useState(false);
@@ -30,6 +32,7 @@ export default function Home() {
       const data = await waitForTransaction({ hash });
       console.log(data);
       showToast("鑄造成功");
+      router.push("/my-rock/");
     } catch (e) {
       console.log(e);
       //@ts-ignore
