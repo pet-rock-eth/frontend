@@ -56,12 +56,22 @@ async function getRockDetail(id: string) {
     Number(rock_struct.adopt_date_timestamp) * 1000
   );
   rockInfo.adopter_address = rock_struct.adopter_address;
-  rockInfo.feed = Number(rock_struct.feed);
+  rockInfo.feed = Number(rock_struct.feed) / 1e18 / 86400;
   rockInfo.healthPointPercentage_18digits = Number(
     rock_struct.healthPointPercentage_18digits
   );
   rockInfo.live_status = rock_struct.live_status;
   rockInfo.lock_status = rock_struct.lock_status;
+  rockInfo.alive_percent = rockInfo.live_status
+    ? Math.floor(
+        ((Date.now() -
+          rockInfo.adopt_time.getTime() +
+          3 * 86400 * 1000 +
+          rockInfo.feed * 86400 * 1000) /
+          (7 * 86400 * 1000)) *
+          10000
+      ) / 100
+    : 0;
   return rockInfo;
 }
 function Rock({ rock }: any) {
@@ -77,6 +87,9 @@ function Rock({ rock }: any) {
     }
   }, [detail]);
   async function feed() {
+    if (detailInfo.alive_percent > 100) {
+      return showToast(`「${rock.name}」已經很飽了`, "info");
+    }
     try {
       showToast(`請同意合約互動來餵食「${rock.name}」`, "info");
       const days = Math.floor(Math.random() * 5) + 1; // 1~5
@@ -151,7 +164,7 @@ function Rock({ rock }: any) {
           layoutId={`rock-${rock.id}`}
         >
           <motion.div
-            className="absolute top-3 right-3 cursor-pointer text-xl bg-black bg-opacity-40 hover:bg-opacity-60  backdrop-blur-md flex items-center justify-center w-8 h-8 rounded-[4px] shadow"
+            className="absolute top-3 right-3 cursor-pointer text-xl bg-black bg-opacity-40 hover:bg-opacity-60  backdrop-blur-md flex items-center justify-center w-8 h-8 rounded-[4px] shadow z-20"
             onClick={() => setDetail(!detail)}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -168,21 +181,48 @@ function Rock({ rock }: any) {
             layoutId={`rock-img-${rock.id}`}
           />
           <div className="flex flex-col gap-2">
-            {rock.live_status && (
+            {rock.live_status && detailInfo && (
               <motion.div
                 className="flex gap-2 w-full"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
-                <FeedBtn icon="bx-cake" text="餵蛋糕" onClick={() => feed()} />
-                <FeedBtn
-                  icon="bx-drink"
-                  text="餵雞尾酒"
-                  onClick={() => showToast(`${rock.name} 醉了`, `info`)}
-                />
-
-                <FeedBtn icon="bx-star" text="送上西天" onClick={() => die()} />
+                {detailInfo.alive_percent >= 0.5 ? (
+                  <>
+                    <FeedBtn
+                      icon="bx-cake"
+                      text="餵蛋糕"
+                      onClick={() => feed()}
+                    />
+                    <FeedBtn
+                      icon="bx-sushi"
+                      text="餵壽司"
+                      onClick={() => feed()}
+                    />
+                    <FeedBtn
+                      icon="bx-coffee-togo"
+                      text="餵咖啡"
+                      onClick={() => feed()}
+                    />
+                  </>
+                ) : (
+                  <FeedBtn
+                    icon="bx-knife"
+                    text="送上西天"
+                    onClick={() => die()}
+                  />
+                )}
               </motion.div>
+            )}
+            {!rock.live_status && (
+              <div className="text-center text-red-400 font-bold">
+                「{rock.name}」正在極樂世界
+              </div>
+            )}
+            {detailInfo && detailInfo.alive_percent < 0.5 && (
+              <div className="text-center text-red-400 font-bold">
+                「{rock.name}」餓死了，透過「送上西天」送他最後一程吧！
+              </div>
             )}
             <div>
               <motion.span
@@ -201,10 +241,9 @@ function Rock({ rock }: any) {
               <div>{rock.description}</div>
               {detailInfo ? (
                 <motion.div>
-                  <InfoField label="feed" value={detailInfo.feed} />
                   <InfoField
-                    label="healthPoint"
-                    value={detailInfo.healthPointPercentage_18digits}
+                    label="活力"
+                    value={`${detailInfo.alive_percent}%`}
                   />
                   <InfoField label="石頭編號 #" value={rock.id} />
                   <InfoField
