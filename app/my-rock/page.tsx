@@ -161,7 +161,7 @@ function Rock({ rock }: any) {
         />
         <motion.div
           key={rock.id}
-          className="w-full max-w-[384px] flex flex-col gap-2 bg-white backdrop-blur-lg bg-opacity-10 rounded-[16px] m-2 p-2 relative"
+          className="w-full max-w-[384px] flex flex-col gap-2 bg-white backdrop-blur-lg bg-opacity-10 rounded-[16px] m-2 p-2 relative overflow-y-auto h-[calc(100vh-4rem)]"
           layout
           layoutId={`rock-${rock.id}`}
         >
