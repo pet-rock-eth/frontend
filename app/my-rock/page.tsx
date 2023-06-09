@@ -221,11 +221,13 @@ function Rock({ rock }: any) {
                 「{rock.name}」正在極樂世界
               </div>
             )}
-            {detailInfo && detailInfo.alive_percent < 0.5 && (
-              <div className="text-center text-red-400 font-bold">
-                「{rock.name}」餓死了，透過「送上西天」送他最後一程吧！
-              </div>
-            )}
+            {detailInfo &&
+              rock.live_status &&
+              detailInfo.alive_percent < 0.5 && (
+                <div className="text-center text-red-400 font-bold">
+                  「{rock.name}」餓死了，透過「送上西天」送他最後一程吧！
+                </div>
+              )}
             <div>
               <motion.span
                 className="text-white text-2xl font-bold"
