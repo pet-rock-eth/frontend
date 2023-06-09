@@ -100,7 +100,7 @@ export default function Home() {
             <h2 className="text-2xl font-bold mt-1">你的第一個區塊鏈石頭</h2>
             <div className="mt-1">
               來養你的第一顆區塊鏈石頭吧！石頭是一種
-              NFT，你可以在區塊鏈上查看石頭的所有權，並且在市場上交易。
+              NFT，你可以在區塊鏈上查看石頭的所有權。
             </div>
           </div>
           <div>
