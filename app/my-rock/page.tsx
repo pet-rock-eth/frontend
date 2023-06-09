@@ -325,7 +325,7 @@ export default function MyRock() {
               `https://ipfs.io/ipfs/bafybeibkrtttj2mtjmuwu26l7dlbmvt5k5qgah7qxmhobv3ps5j232tzdy/stone${id}.json`
             );
             rockInfo = await res.json();
-            localStorage.setItem(`rock-${id}`, JSON.stringify(data));
+            localStorage.setItem(`rock-${id}`, JSON.stringify(rockInfo));
           }
           let { live_status } = await getRockDetail(id);
           rockInfo.live_status = live_status;
