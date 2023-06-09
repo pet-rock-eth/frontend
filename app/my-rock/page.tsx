@@ -20,16 +20,26 @@ function Rock({ rock }: any) {
         </motion.div>
       </div>
       <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-10">
-        <div
+        <motion.div
           className="absolute top-0 left-0 w-full h-full cursor-pointer"
           onClick={() => setDetail(!detail)}
-        ></div>
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+        ></motion.div>
         <motion.div
           key={rock.id}
-          className="flex flex-col lg:flex-row gap-2 bg-white backdrop-blur-md bg-opacity-10 rounded-[16px] m-2 p-2 cursor-pointer"
+          className="flex flex-col lg:flex-row gap-2 bg-white backdrop-blur-md bg-opacity-10 rounded-[16px] m-2 p-2  relative"
           layout
           layoutId={`rock-${rock.id}`}
         >
+          <motion.div
+            className="absolute top-3 right-3 cursor-pointer text-xl bg-black bg-opacity-40 hover:bg-opacity-60  backdrop-blur-md flex items-center justify-center w-8 h-8 rounded-[4px]"
+            onClick={() => setDetail(!detail)}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+          >
+            <i className="bx bx-x"></i>
+          </motion.div>
           <motion.img
             src={rock.image}
             className="w-64 h-64 rounded-[8px]"
