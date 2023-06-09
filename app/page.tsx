@@ -107,7 +107,7 @@ export default function Home() {
             <i className="bx bx-dish text-6xl"></i>
             <h2 className="text-2xl font-bold mt-1">餵食石頭</h2>
             <div className="mt-1">
-              石頭必須定期餵食才能維持生命，你可以在石頭的詳細資料頁面看到石頭的活力值，活力值會隨著時間流逝而降低，當活力值過低時，石頭可能會死亡。
+              石頭必須定期餵食才能維持生命，必須小心呵護，才能成長茁壯，失去照顧的石頭可能會死掉。
             </div>
           </div>
           <div>
