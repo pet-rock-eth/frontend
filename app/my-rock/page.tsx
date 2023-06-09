@@ -2,7 +2,7 @@
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { goerli } from "wagmi/chains";
-import { readContract } from "@wagmi/core";
+import { readContract, writeContract } from "@wagmi/core";
 import { contractAddress, contractABI } from "../../contract/stone";
 import { motion } from "framer-motion";
 import CheckConnected from "../../components/checkConnected";
@@ -28,12 +28,12 @@ function Rock({ rock }: any) {
         ></motion.div>
         <motion.div
           key={rock.id}
-          className="flex flex-col lg:flex-row gap-2 bg-white backdrop-blur-md bg-opacity-10 rounded-[16px] m-2 p-2  relative"
+          className="flex flex-col gap-2 bg-white backdrop-blur-md bg-opacity-10 rounded-[16px] m-2 p-2 relative"
           layout
           layoutId={`rock-${rock.id}`}
         >
           <motion.div
-            className="absolute top-3 right-3 cursor-pointer text-xl bg-black bg-opacity-40 hover:bg-opacity-60  backdrop-blur-md flex items-center justify-center w-8 h-8 rounded-[4px]"
+            className="absolute top-3 right-3 cursor-pointer text-xl bg-black bg-opacity-40 hover:bg-opacity-60  backdrop-blur-md flex items-center justify-center w-8 h-8 rounded-[4px] shadow"
             onClick={() => setDetail(!detail)}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -42,7 +42,7 @@ function Rock({ rock }: any) {
           </motion.div>
           <motion.img
             src={rock.image}
-            className="w-64 h-64 rounded-[8px]"
+            className="w-64 h-64 rounded-[8px] shadow"
             layout
             layoutId={`rock-img-${rock.id}`}
           />
@@ -74,7 +74,7 @@ function Rock({ rock }: any) {
     >
       <motion.img
         src={rock.image}
-        className="w-32 h-32 lg:w-64 lg:h-64 rounded-[8px]"
+        className="w-32 h-32 lg:w-64 lg:h-64 rounded-[8px] shadow"
         layout
         layoutId={`rock-img-${rock.id}`}
       />
