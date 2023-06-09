@@ -1,4 +1,4 @@
-export const contractAddress = `0x6027426d6bef7b21011f9b6d412224b1cf39aacc`
+export const contractAddress = `0x2597d48c5bb81a2c60ded9a3567c247cb8b72179`
 export const contractABI = [
   {
     "inputs": [],
@@ -417,6 +417,62 @@ export const contractABI = [
         "internalType": "bool",
         "name": "",
         "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
+    "name": "get_struct",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "adopter_address",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "adopt_date_timestamp",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "feed",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "healthPointPercentage_18digits",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "lock_status",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "live_status",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct MyToken.Stone",
+        "name": "",
+        "type": "tuple"
       }
     ],
     "stateMutability": "view",
