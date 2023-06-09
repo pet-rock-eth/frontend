@@ -94,7 +94,7 @@ function Rock({ rock }: any) {
     }
     try {
       showToast(`請同意合約互動來餵食「${rock.name}」`, "info");
-      const days = Math.floor(Math.random() * 5) + 1; // 1~5
+      const days = Math.floor(Math.random() * 3) + 1; // 1~3
       const { hash } = await writeContract({
         address: contractAddress,
         abi: contractABI,
