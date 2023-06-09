@@ -14,11 +14,11 @@ function showToast(
 ) {
   toast[type](msg);
 }
-function InfoField({ label, value }: any) {
+function InfoField({ label, value, children }: any) {
   return (
     <div className="flex gap-1 justify-between items-center">
       <div className="text-white font-bold">{label}</div>
-      <div className="text-white text-opacity-80">{value}</div>
+      <div className="text-white text-opacity-80">{children || value}</div>
     </div>
   );
 }
@@ -249,7 +249,15 @@ function Rock({ rock }: any) {
                     label="活力"
                     value={`${detailInfo.alive_percent}%`}
                   />
-                  <InfoField label="石頭編號 #" value={rock.id} />
+                  <InfoField label="石頭編號" value={rock.id}>
+                    <a
+                      href={`https://goerli.etherscan.io/nft/${contractAddress}/${rock.id}`}
+                      target="_blank"
+                      className="underline text-blue-400"
+                    >
+                      #{rock.id}
+                    </a>
+                  </InfoField>
                   <InfoField
                     label="領養時間"
                     value={detailInfo.adopt_time.toLocaleString()}
