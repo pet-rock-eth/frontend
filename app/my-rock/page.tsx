@@ -7,12 +7,57 @@ import { contractAddress, contractABI } from "../../contract/stone";
 import { motion } from "framer-motion";
 import CheckConnected from "../../components/checkConnected";
 function Rock({ rock }: any) {
-  return (
+  const [detail, setDetail] = useState(false);
+  return detail ? (
+    <>
+      <div
+        className="flex flex-col justify-center items-center bg-white bg-opacity-0 rounded-[16px] m-2 p-2 cursor-pointer"
+        onClick={() => setDetail(!detail)}
+      >
+        <div className="w-32 h-32 lg:w-64 lg:h-64 rounded-[8px]"></div>
+        <motion.div className="text-white text-opacity-0 mt-2 select-none">
+          stone 石頭
+        </motion.div>
+      </div>
+      <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-10">
+        <div
+          className="absolute top-0 left-0 w-full h-full cursor-pointer"
+          onClick={() => setDetail(!detail)}
+        ></div>
+        <motion.div
+          key={rock.id}
+          className="flex flex-col lg:flex-row gap-2 bg-white backdrop-blur-md bg-opacity-10 rounded-[16px] m-2 p-2 cursor-pointer"
+          layout
+          layoutId={`rock-${rock.id}`}
+        >
+          <motion.img
+            src={rock.image}
+            className="w-64 h-64 rounded-[8px]"
+            layout
+            layoutId={`rock-img-${rock.id}`}
+          />
+          <div className="min-w-[256px] flex flex-col gap-2">
+            <div>
+              <motion.span
+                className="text-white text-2xl font-bold"
+                layout
+                layoutId={`rock-name-${rock.id}`}
+              >
+                {rock.name}
+              </motion.span>
+            </div>
+            <div>{rock.description}</div>
+          </div>
+        </motion.div>
+      </div>
+    </>
+  ) : (
     <motion.div
       key={rock.id}
-      className="flex flex-col justify-center items-center bg-white bg-opacity-10 rounded-[16px] m-2 p-2 cursor-pointer"
+      className="flex flex-col gap-2 justify-center items-center bg-white backdrop-blur-md bg-opacity-10 rounded-[16px] m-2 p-2 cursor-pointer"
       layout
       layoutId={`rock-${rock.id}`}
+      onClick={() => setDetail(!detail)}
     >
       <motion.img
         src={rock.image}
@@ -21,7 +66,7 @@ function Rock({ rock }: any) {
         layoutId={`rock-img-${rock.id}`}
       />
       <motion.div
-        className="text-white text-opacity-80 text-center mt-2"
+        className="text-white text-opacity-80"
         layout
         layoutId={`rock-name-${rock.id}`}
       >
