@@ -19,13 +19,13 @@ function Rock({ rock }: any) {
           stone 石頭
         </motion.div>
       </div>
-      <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-10">
+      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-10">
         <motion.div
-          className="absolute top-0 left-0 w-full h-full cursor-pointer"
+          className="absolute top-0 left-0 w-full h-full cursor-pointer bg-black bg-opacity-50"
           onClick={() => setDetail(!detail)}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-        ></motion.div>
+        />
         <motion.div
           key={rock.id}
           className="flex flex-col gap-2 bg-white backdrop-blur-md bg-opacity-10 rounded-[16px] m-2 p-2 relative"
@@ -37,6 +37,7 @@ function Rock({ rock }: any) {
             onClick={() => setDetail(!detail)}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.2, delay: 0.4 }}
           >
             <i className="bx bx-x"></i>
           </motion.div>
