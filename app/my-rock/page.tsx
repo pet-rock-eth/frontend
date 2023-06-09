@@ -46,6 +46,9 @@ function Rock({ rock }: any) {
             layout
             layoutId={`rock-img-${rock.id}`}
           />
+          <button className="bg-white backdrop-blur-md bg-opacity-10 hover:bg-opacity-20 active:bg-opacity-30 rounded-[8px] p-2 shadow">
+            <i className="bx bx-baguette"></i> 餵食
+          </button>
           <div className="min-w-[256px] flex flex-col gap-2">
             <div>
               <motion.span
