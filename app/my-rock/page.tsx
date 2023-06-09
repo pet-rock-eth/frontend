@@ -24,11 +24,11 @@ function Rock({ rock }: any) {
           className="absolute top-0 left-0 w-full h-full cursor-pointer bg-black bg-opacity-50"
           onClick={() => setDetail(!detail)}
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
         />
         <motion.div
           key={rock.id}
-          className="flex flex-col gap-2 bg-white backdrop-blur-md bg-opacity-10 rounded-[16px] m-2 p-2 relative"
+          className="w-full max-w-[384px] flex flex-col gap-2 bg-white backdrop-blur-lg bg-opacity-10 rounded-[16px] m-2 p-2 relative"
           layout
           layoutId={`rock-${rock.id}`}
         >
@@ -43,14 +43,14 @@ function Rock({ rock }: any) {
           </motion.div>
           <motion.img
             src={rock.image}
-            className="w-64 h-64 rounded-[8px] shadow"
+            className="w-full rounded-[8px] shadow"
             layout
             layoutId={`rock-img-${rock.id}`}
           />
           <button className="bg-white backdrop-blur-md bg-opacity-10 hover:bg-opacity-20 active:bg-opacity-30 rounded-[8px] p-2 shadow">
             <i className="bx bx-baguette"></i> 餵食
           </button>
-          <div className="min-w-[256px] flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             <div>
               <motion.span
                 className="text-white text-2xl font-bold"
@@ -68,14 +68,14 @@ function Rock({ rock }: any) {
   ) : (
     <motion.div
       key={rock.id}
-      className="flex flex-col gap-2 justify-center items-center bg-white backdrop-blur-md bg-opacity-10 rounded-[16px] m-2 p-2 cursor-pointer"
+      className="flex flex-col gap-2 justify-center items-center bg-white backdrop-blur-md bg-opacity-10 rounded-[16px] m-2 p-2 cursor-pointer relative"
       layout
       layoutId={`rock-${rock.id}`}
       onClick={() => setDetail(!detail)}
     >
       <motion.img
         src={rock.image}
-        className="w-32 h-32 lg:w-64 lg:h-64 rounded-[8px] shadow"
+        className="w-full rounded-[8px] shadow"
         layout
         layoutId={`rock-img-${rock.id}`}
       />
@@ -133,10 +133,12 @@ export default function MyRock() {
             <i className="bx bx-loader-alt animate-spin text-4xl"></i>
           </div>
         ) : (
-          <div className="flex flex-wrap justify-center mt-4">
-            {rocks.map((rock: any) => (
-              <Rock rock={rock} key={rock.id} />
-            ))}
+          <div className="container">
+            <div className="mt-4 grid gap-2 grid-cols-[repeat(auto-fill,minmax(128px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(256px,1fr))]">
+              {rocks.map((rock: any) => (
+                <Rock rock={rock} key={rock.id} />
+              ))}
+            </div>
           </div>
         )}
       </CheckConnected>
