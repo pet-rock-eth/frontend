@@ -93,7 +93,7 @@ export default function Home() {
           </motion.a>
         )}
       </div>
-      <div className="container mx-auto mt-16">
+      <div className="container mx-auto my-16">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div>
             <i className="bx bx-star text-6xl"></i>

@@ -144,7 +144,7 @@ function Rock({ rock }: any) {
   return detail ? (
     <>
       <div
-        className="flex flex-col justify-center items-center bg-white bg-opacity-0 rounded-[16px] m-2 p-2 cursor-pointer"
+        className="flex flex-col justify-center items-center bg-opacity-0 rounded-[16px] m-2 p-2 cursor-pointer"
         onClick={() => setDetail(!detail)}
       >
         <div className="w-32 h-32 lg:w-64 lg:h-64 rounded-[8px]"></div>
@@ -161,7 +161,7 @@ function Rock({ rock }: any) {
         />
         <motion.div
           key={rock.id}
-          className="w-full max-w-[384px] flex flex-col gap-2 bg-white backdrop-blur-lg bg-opacity-10 rounded-[16px] m-2 p-2 relative overflow-y-auto max-h-[calc(100vh-4rem)]"
+          className="w-full max-w-[384px] flex flex-col gap-2 bg-[#194d63] bg-opacity-50 backdrop-blur-lg rounded-[16px] m-2 p-2 relative overflow-y-auto max-h-[calc(100vh-4rem)]"
           layout
           layoutId={`rock-${rock.id}`}
         >
@@ -260,7 +260,7 @@ function Rock({ rock }: any) {
                   />
                   <InfoField
                     label="存活狀態"
-                    value={detailInfo.live_status ? `還沒掛` : `掰了`}
+                    value={detailInfo.live_status ? `活著` : `掰了`}
                   />
                 </motion.div>
               ) : (
@@ -276,7 +276,7 @@ function Rock({ rock }: any) {
   ) : (
     <motion.div
       key={rock.id}
-      className="flex flex-col gap-2 justify-center items-center bg-white backdrop-blur-md bg-opacity-10 rounded-[16px] m-2 p-2 cursor-pointer relative"
+      className="flex flex-col gap-2 justify-center items-center bg-[#194d63] bg-opacity-50 hover:bg-opacity-80 backdrop-blur-md rounded-[16px] m-2 p-2 cursor-pointer relative"
       layout
       layoutId={`rock-${rock.id}`}
       onClick={() => setDetail(!detail)}

@@ -18,7 +18,7 @@ function NavItem({
   return (
     <Link
       href={href}
-      className={`relative p-1 lg:p-2 text-sm lg:text-xl ${
+      className={`relative py-1 px-2 lg:py-2 lg:px-4 lg:text-xl ${
         current
           ? "text-white font-bold"
           : "text-white text-opacity-70 hover:text-opacity-90"
@@ -54,15 +54,11 @@ export default function Nav() {
           </NavItem>
           <div className="flex-1" />
           <a
-            className="items-center gap-2 p-1 lg:p-2 rounded-xl text-sm lg:text-xl cursor-pointer
+            className="items-center gap-2 py-1 px-2 lg:py-2 lg:px-4 rounded-xl lg:text-xl cursor-pointer
           hover:bg-white hover:bg-opacity-10 flex"
             onClick={(e) => openWeb3Modal()}
           >
-            {isConnected ? (
-              <i className="bx bx-user"></i>
-            ) : (
-              <i className="bx bx-wallet"></i>
-            )}
+            <i className="bx bx-wallet"></i>
             {isConnected ? (
               <>
                 <span className="lg:hidden">錢包</span>
