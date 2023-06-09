@@ -49,7 +49,7 @@ export default function Nav() {
           <NavItem href="/" name="寵物石頭">
             <i className="bx bx-home-alt"></i>
           </NavItem>
-          <NavItem href="/my-rock/" name="我ㄉ">
+          <NavItem href="/my-rock/" name="我ㄉ石頭">
             <i className="bx bx-user"></i>
           </NavItem>
           {/* <NavItem href="/school/" name="學校">
