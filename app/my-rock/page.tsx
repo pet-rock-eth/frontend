@@ -43,30 +43,33 @@ function FeedBtn({
     </button>
   );
 }
+async function getRockDetail(id: string) {
+  let rockInfo: any = {};
+  const rock_struct: any = await readContract({
+    address: contractAddress,
+    abi: contractABI,
+    functionName: "get_struct",
+    args: [id],
+    chainId: goerli.id,
+  });
+  rockInfo.adopt_time = new Date(
+    Number(rock_struct.adopt_date_timestamp) * 1000
+  );
+  rockInfo.adopter_address = rock_struct.adopter_address;
+  rockInfo.feed = Number(rock_struct.feed);
+  rockInfo.healthPointPercentage_18digits = Number(
+    rock_struct.healthPointPercentage_18digits
+  );
+  rockInfo.live_status = rock_struct.live_status;
+  rockInfo.lock_status = rock_struct.lock_status;
+  return rockInfo;
+}
 function Rock({ rock }: any) {
   const [detail, setDetail] = useState(false);
   const [detailInfo, setDetailInfo] = useState<any>(null);
   const { address } = useAccount();
   async function getDetail() {
-    let rockInfo: any = {};
-    const rock_struct: any = await readContract({
-      address: contractAddress,
-      abi: contractABI,
-      functionName: "get_struct",
-      args: [rock.id],
-      chainId: goerli.id,
-    });
-    rockInfo.adopt_time = new Date(
-      Number(rock_struct.adopt_date_timestamp) * 1000
-    );
-    rockInfo.adopter_address = rock_struct.adopter_address;
-    rockInfo.feed = Number(rock_struct.feed);
-    rockInfo.healthPointPercentage_18digits = Number(
-      rock_struct.healthPointPercentage_18digits
-    );
-    rockInfo.live_status = rock_struct.live_status;
-    rockInfo.lock_status = rock_struct.lock_status;
-    setDetailInfo(rockInfo);
+    setDetailInfo(await getRockDetail(rock.id));
   }
   useEffect(() => {
     if (detail) {
@@ -106,6 +109,23 @@ function Rock({ rock }: any) {
       getDetail();
     }
   }
+  async function die() {
+    try {
+      const { hash } = await writeContract({
+        address: contractAddress,
+        abi: contractABI,
+        functionName: "die",
+        args: [rock.id],
+        chainId: goerli.id,
+      });
+      setDetailInfo(null);
+      await waitForTransaction({ hash });
+      showToast(`「${rock.name}」覺得解脫了！`, "success");
+      getDetail();
+    } catch (e) {
+      showToast("失敗", "error");
+    }
+  }
   return detail ? (
     <>
       <div
@@ -141,28 +161,29 @@ function Rock({ rock }: any) {
           </motion.div>
           <motion.img
             src={rock.image}
-            className="w-full rounded-[8px] shadow"
+            className={`w-full rounded-[8px] shadow ${
+              rock.live_status ? `` : `contrast-50 grayscale`
+            }`}
             layout
             layoutId={`rock-img-${rock.id}`}
           />
           <div className="flex flex-col gap-2">
-            <motion.div
-              className="flex gap-2 w-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              <FeedBtn icon="bx-cake" text="餵蛋糕" onClick={() => feed()} />
-              <FeedBtn
-                icon="bx-popsicle"
-                text="餵冰棒"
-                onClick={() => feed()}
-              />
-              <FeedBtn
-                icon="bx-drink"
-                text="餵雞尾酒"
-                onClick={() => showToast(`${rock.name} 醉了`, `info`)}
-              />
-            </motion.div>
+            {rock.live_status && (
+              <motion.div
+                className="flex gap-2 w-full"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                <FeedBtn icon="bx-cake" text="餵蛋糕" onClick={() => feed()} />
+                <FeedBtn
+                  icon="bx-drink"
+                  text="餵雞尾酒"
+                  onClick={() => showToast(`${rock.name} 醉了`, `info`)}
+                />
+
+                <FeedBtn icon="bx-star" text="送上西天" onClick={() => die()} />
+              </motion.div>
+            )}
             <div>
               <motion.span
                 className="text-white text-2xl font-bold"
@@ -219,7 +240,9 @@ function Rock({ rock }: any) {
     >
       <motion.img
         src={rock.image}
-        className="w-full rounded-[8px] shadow"
+        className={`w-full rounded-[8px] shadow ${
+          rock.live_status ? `` : `contrast-50 grayscale`
+        }`}
         layout
         layoutId={`rock-img-${rock.id}`}
       />
@@ -263,6 +286,8 @@ export default function MyRock() {
             rockInfo = await res.json();
             localStorage.setItem(`rock-${id}`, JSON.stringify(data));
           }
+          let { live_status } = await getRockDetail(id);
+          rockInfo.live_status = live_status;
           return rockInfo;
         })
       ).then((data) => setRocks(data));
