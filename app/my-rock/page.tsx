@@ -62,16 +62,18 @@ async function getRockDetail(id: string) {
   );
   rockInfo.live_status = rock_struct.live_status;
   rockInfo.lock_status = rock_struct.lock_status;
-  rockInfo.alive_percent = rockInfo.live_status
-    ? Math.floor(
-        ((Date.now() -
-          rockInfo.adopt_time.getTime() +
-          3 * 86400 * 1000 +
-          rockInfo.feed * 86400 * 1000) /
-          (7 * 86400 * 1000)) *
-          10000
-      ) / 100
-    : 0;
+  rockInfo.alive_percent =
+    Math.floor(
+      ((Date.now() -
+        rockInfo.adopt_time.getTime() +
+        3 * 86400 * 1000 +
+        rockInfo.feed * 86400 * 1000) /
+        (7 * 86400 * 1000)) *
+        10000
+    ) / 100;
+
+  if (rockInfo.alive_percent > 100) rockInfo.alive_percent = 100;
+  if (!rockInfo.live_status) rockInfo.alive_percent = 0;
   return rockInfo;
 }
 function Rock({ rock }: any) {
@@ -87,7 +89,7 @@ function Rock({ rock }: any) {
     }
   }, [detail]);
   async function feed() {
-    if (detailInfo.alive_percent > 100) {
+    if (detailInfo.alive_percent >= 100) {
       return showToast(`「${rock.name}」已經很飽了`, "info");
     }
     try {
