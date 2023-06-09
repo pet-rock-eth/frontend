@@ -52,12 +52,12 @@ export default function Nav() {
           <NavItem href="/my-rock/" name="我ㄉ">
             <i className="bx bx-user"></i>
           </NavItem>
-          <NavItem href="/school/" name="學校">
+          {/* <NavItem href="/school/" name="學校">
             <i className="bx bxs-school"></i>
           </NavItem>
           <NavItem href="/columbarium/" name="靈骨塔">
             <i className="bx bx-ghost"></i>
-          </NavItem>
+          </NavItem> */}
           <div className="flex-1" />
           <a
             className="items-center gap-2 p-1 lg:p-2 rounded-xl text-sm lg:text-xl cursor-pointer
