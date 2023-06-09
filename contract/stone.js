@@ -1,4 +1,4 @@
-export const contractAddress = `0x7195d99abb547d520c96143672d6d7c64a5bb721`
+export const contractAddress = `0x46dc5aadbe3c926c5e11c5b5c6b1fefc5a520c7e`
 export const contractABI = [
   {
     "inputs": [],
@@ -535,6 +535,19 @@ export const contractABI = [
         "internalType": "bool",
         "name": "",
         "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "left_stone_number",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
