@@ -350,7 +350,7 @@ export default function MyRock() {
           <div className="mt-2 text-center">你還沒有石頭喔</div>
         ) : (
           <div className="container">
-            <div className="mt-4 grid gap-2 grid-cols-[repeat(auto-fill,minmax(128px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(256px,1fr))]">
+            <div className="mt-4 grid gap-2 grid-cols-[repeat(auto-fill,minmax(192px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(256px,1fr))]">
               {rocks.map((rock: any) => (
                 <Rock rock={rock} key={rock.id} />
               ))}
