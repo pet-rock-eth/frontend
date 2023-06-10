@@ -64,10 +64,9 @@ async function getRockDetail(id: string) {
   rockInfo.lock_status = rock_struct.lock_status;
   rockInfo.alive_percent =
     Math.floor(
-      ((Date.now() -
-        rockInfo.adopt_time.getTime() +
-        3 * 86400 * 1000 +
-        rockInfo.feed * 86400 * 1000) /
+      ((rockInfo.adopt_time.getTime() +
+        (rockInfo.feed + 3) * 86400 * 1000 -
+        Date.now()) /
         (7 * 86400 * 1000)) *
         10000
     ) / 100;
