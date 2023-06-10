@@ -332,7 +332,7 @@ export default function MyRock() {
             rockInfo = JSON.parse(localStorage.getItem(`rock-${id}`) || "{}");
           } else {
             const res = await fetch(
-              `https://ipfs.io/ipfs/bafybeibkrtttj2mtjmuwu26l7dlbmvt5k5qgah7qxmhobv3ps5j232tzdy/stone${id}.json`
+              `https://pet-rock-eth.pancake.tw/nft/${id}.json`
             );
             rockInfo = await res.json();
             localStorage.setItem(`rock-${id}`, JSON.stringify(rockInfo));
