@@ -99,8 +99,7 @@ export default function Home() {
             <i className="bx bx-star text-6xl"></i>
             <h2 className="text-2xl font-bold mt-1">你的第一個區塊鏈石頭</h2>
             <div className="mt-1">
-              來養你的第一顆區塊鏈石頭吧！石頭是一種
-              NFT，你可以在區塊鏈上查看石頭的所有權。
+              來養你的第一顆區塊鏈石頭吧！購買後，你將擁有一顆獨一無二的石頭，並且可以在區塊鏈上查看它的所有權。
             </div>
           </div>
           <div>
