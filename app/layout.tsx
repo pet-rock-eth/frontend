@@ -59,6 +59,12 @@ export default function RootLayout({
           rel="stylesheet"
         />
         <title>寵物石頭</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Asap+Condensed:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body className="bg-[#002434] text-white">
         <WagmiConfig config={wagmiConfig}>
