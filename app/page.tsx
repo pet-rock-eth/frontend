@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useWeb3Modal } from "@web3modal/react";
 import { useAccount } from "wagmi";
 import { goerli } from "wagmi/chains";
-import { writeContract, waitForTransaction } from "@wagmi/core";
+import { writeContract, waitForTransaction, readContract } from "@wagmi/core";
 import { contractAddress, contractABI } from "../contract/stone";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
@@ -22,6 +22,18 @@ export default function Home() {
   async function mintStone() {
     setMinting(true);
     try {
+      const rock_left: any = Number(
+        await readContract({
+          address: contractAddress,
+          abi: contractABI,
+          functionName: "left_stone_number",
+          chainId: goerli.id,
+        })
+      );
+      if (rock_left <= 0) {
+        showToast("石頭已售完", "error");
+        return;
+      }
       const { hash } = await writeContract({
         address: contractAddress,
         abi: contractABI,
