@@ -347,7 +347,7 @@ export default function MyRock() {
   }, [isConnected]);
   return (
     <>
-      <h1 className="text-4xl text-center mt-2">我ㄉ石頭</h1>
+      <h1 className="text-4xl text-center mt-2 font-bold">我ㄉ石頭</h1>
       <CheckConnected>
         {loading ? (
           <div className="flex justify-center items-center h-[512px]">
