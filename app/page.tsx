@@ -63,10 +63,34 @@ export default function Home() {
   }
   return (
     <div>
-      <img src="/rock.png" className="w-40 mx-auto mt-16" />
-      <h1 className="text-4xl text-center mt-4 font-bold">來自區塊鏈的</h1>
-      <h1 className="text-6xl text-center mt-2 font-bold">寵物石頭</h1>
-      <div className="flex justify-center mt-8">
+      <motion.img
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        src="/rock.png"
+        className="w-40 mx-auto mt-16"
+      />
+      <motion.h1
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="text-4xl text-center mt-4 font-bold"
+      >
+        來自區塊鏈的
+      </motion.h1>
+      <motion.h1
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="text-6xl text-center mt-2 font-bold"
+      >
+        寵物石頭
+      </motion.h1>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6 }}
+        className="flex justify-center mt-8"
+      >
         {isConnected ? (
           minting ? (
             <motion.a
@@ -104,8 +128,13 @@ export default function Home() {
             {isWeb3ModalOpen ? <span>正在連接...</span> : <span>連接錢包</span>}
           </motion.a>
         )}
-      </div>
-      <div className="container mx-auto my-16">
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8 }}
+        className="container mx-auto my-16"
+      >
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div>
             <i className="bx bx-star text-6xl"></i>
@@ -130,7 +159,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
