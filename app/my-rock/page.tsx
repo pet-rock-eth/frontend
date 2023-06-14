@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { goerli } from "wagmi/chains";
 import { readContract, writeContract, waitForTransaction } from "@wagmi/core";
 import { contractAddress, contractABI } from "../../contract/stone";
-import { motion } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 import { parseEther } from "ethers/lib/utils";
 import { toast } from "react-toastify";
 import CheckConnected from "../../components/checkConnected";
@@ -79,12 +79,18 @@ function Rock({ rock }: any) {
   const [detail, setDetail] = useState(false);
   const [detailInfo, setDetailInfo] = useState<any>(null);
   const { address } = useAccount();
+  const zIndex = useMotionValue(0);
   async function getDetail() {
     setDetailInfo(await getRockDetail(rock.id));
   }
   useEffect(() => {
     if (detail) {
       getDetail();
+      zIndex.set(20);
+    } else {
+      setTimeout(() => {
+        zIndex.set(0);
+      }, 500);
     }
   }, [detail]);
   async function feed() {
@@ -221,7 +227,10 @@ function Rock({ rock }: any) {
           stone 石頭
         </motion.div>
       </div>
-      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-10">
+      <motion.div
+        className="fixed top-0 left-0 w-full h-full flex justify-center items-center"
+        style={{ zIndex }}
+      >
         <motion.div
           className="absolute top-0 left-0 w-full h-full cursor-pointer bg-black bg-opacity-50"
           onClick={() => setDetail(!detail)}
@@ -371,7 +380,7 @@ function Rock({ rock }: any) {
             </motion.div>
           </div>
         </motion.div>
-      </div>
+      </motion.div>
     </>
   ) : (
     <motion.div
@@ -380,6 +389,7 @@ function Rock({ rock }: any) {
       layout
       layoutId={`rock-${rock.id}`}
       onClick={() => setDetail(!detail)}
+      style={{ zIndex }}
     >
       <motion.img
         src={rock.image}
