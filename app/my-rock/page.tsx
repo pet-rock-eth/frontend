@@ -246,13 +246,15 @@ function Rock({ rock }: any) {
           <motion.img
             src={rock.image}
             className={`w-full rounded-[8px] shadow ${
-              rock.live_status ? `` : `contrast-50 grayscale`
+              detailInfo?.live_status ?? rock.live_status
+                ? ``
+                : `contrast-50 grayscale`
             }`}
             layout
             layoutId={`rock-img-${rock.id}`}
           />
           <div className="flex flex-col gap-2">
-            {rock.live_status && detailInfo && (
+            {detailInfo && detailInfo.live_status && (
               <motion.div
                 className="flex gap-2 w-full"
                 initial={{ opacity: 0 }}
@@ -291,7 +293,7 @@ function Rock({ rock }: any) {
               </div>
             )}
             {detailInfo &&
-              rock.live_status &&
+              detailInfo.live_status &&
               detailInfo.alive_percent < 0.5 && (
                 <div className="text-center text-red-400 font-bold">
                   「{rock.name}」餓死了，透過「送上西天」送他最後一程吧！
