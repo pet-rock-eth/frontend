@@ -254,7 +254,7 @@ function Rock({ rock }: any) {
           </motion.div>
           <motion.img
             src={rock.image}
-            className={`w-full rounded-[8px] shadow ${
+            className={`w-full rounded-[8px] shadow aspect-square ${
               detailInfo?.live_status ?? rock.live_status
                 ? ``
                 : `contrast-50 grayscale`
@@ -393,7 +393,7 @@ function Rock({ rock }: any) {
     >
       <motion.img
         src={rock.image}
-        className={`w-full rounded-[8px] shadow ${
+        className={`w-full rounded-[8px] shadow aspect-square ${
           rock.live_status ? `` : `contrast-50 grayscale`
         }`}
         layout
