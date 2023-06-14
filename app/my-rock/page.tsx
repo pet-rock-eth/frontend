@@ -193,6 +193,7 @@ function Rock({ rock }: any) {
       setDetailInfo(null);
       await waitForTransaction({ hash });
       showToast(`已轉移「${rock.name}」`);
+      location.reload();
     } catch (e) {
       console.log(e);
       //@ts-ignore
