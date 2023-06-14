@@ -89,8 +89,10 @@ function Rock({ rock }: any) {
       zIndex.set(20);
     } else {
       setTimeout(() => {
-        zIndex.set(0);
-      }, 500);
+        if (!detail) {
+          zIndex.set(0);
+        }
+      }, 250);
     }
   }, [detail]);
   async function feed() {
