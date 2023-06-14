@@ -5,7 +5,7 @@ import { goerli } from "wagmi/chains";
 import { readContract, writeContract, waitForTransaction } from "@wagmi/core";
 import { contractAddress, contractABI } from "../../contract/stone";
 import { motion } from "framer-motion";
-
+import { parseEther } from "ethers/lib/utils";
 import { toast } from "react-toastify";
 import CheckConnected from "../../components/checkConnected";
 function showToast(
@@ -106,7 +106,6 @@ function Rock({ rock }: any) {
       const yummy = ["好吃", "美味", "快樂", "開心"];
       const randomYummy = yummy[Math.floor(Math.random() * yummy.length)];
       showToast(`「${rock.name}」覺得${randomYummy}！`);
-      getDetail();
     } catch (e) {
       console.log(e);
       //@ts-ignore
@@ -138,6 +137,76 @@ function Rock({ rock }: any) {
       getDetail();
     } catch (e) {
       showToast("失敗", "error");
+    }
+  }
+  async function unlock() {
+    if (
+      confirm(
+        `解鎖的目的是為了讓你可以轉移「${rock.name}」，並在 NFT 市場上出售，確定要解鎖嗎？`
+      )
+    ) {
+      // unlock_payment
+      try {
+        showToast(`請同意合約互動來解鎖「${rock.name}」`, "info");
+        const { hash } = await writeContract({
+          address: contractAddress,
+          abi: contractABI,
+          functionName: "unlock_payment",
+          args: [rock.id],
+          chainId: goerli.id,
+          //@ts-ignore
+          value: parseEther("0.001"),
+        });
+        setDetailInfo(null);
+        await waitForTransaction({ hash });
+        showToast(`已解鎖「${rock.name}」`);
+      } catch (e) {
+        console.log(e);
+        //@ts-ignore
+        if (e.toString().includes("ChainMismatchError")) {
+          showToast("請切換到 Goerli 測試網", "error");
+        }
+        //@ts-ignore
+        else if (e.toString().includes("TransactionExecutionError")) {
+          showToast("請確認合約互動", "error");
+        } else {
+          showToast("解鎖失敗", "error");
+        }
+      } finally {
+        getDetail();
+      }
+    }
+  }
+  async function transfer() {
+    // TransferSingle
+    let to = prompt(`請輸入欲轉移的地址，注意：轉移後無法再轉回！`);
+    if (!to) return showToast("轉移已取消", "info");
+    try {
+      showToast(`請同意合約互動來轉移「${rock.name}」`, "info");
+      const { hash } = await writeContract({
+        address: contractAddress,
+        abi: contractABI,
+        functionName: "safeTransferFrom",
+        args: [address, to, rock.id, 1, "0x0"],
+        chainId: goerli.id,
+      });
+      setDetailInfo(null);
+      await waitForTransaction({ hash });
+      showToast(`已轉移「${rock.name}」`);
+    } catch (e) {
+      console.log(e);
+      //@ts-ignore
+      if (e.toString().includes("ChainMismatchError")) {
+        showToast("請切換到 Goerli 測試網", "error");
+      }
+      //@ts-ignore
+      else if (e.toString().includes("TransactionExecutionError")) {
+        showToast("請確認合約互動", "error");
+      } else {
+        showToast("解鎖失敗", "error");
+      }
+    } finally {
+      getDetail();
     }
   }
   return detail ? (
@@ -262,13 +331,34 @@ function Rock({ rock }: any) {
                     value={detailInfo.adopt_time.toLocaleString()}
                   />
                   <InfoField
+                    label="存活狀態"
+                    value={
+                      detailInfo.live_status && detailInfo.alive_percent >= 0.5
+                        ? `活著`
+                        : `掰了`
+                    }
+                  />
+                  <InfoField
                     label="鎖定狀態"
                     value={detailInfo.lock_status ? `是` : `否`}
                   />
-                  <InfoField
-                    label="存活狀態"
-                    value={detailInfo.live_status ? `活著` : `掰了`}
-                  />
+                  <InfoField label="轉移石頭">
+                    {detailInfo.lock_status ? (
+                      <button
+                        className="underline text-blue-400 cursor-pointer"
+                        onClick={() => unlock()}
+                      >
+                        解鎖
+                      </button>
+                    ) : (
+                      <button
+                        className="underline text-blue-400 cursor-pointer"
+                        onClick={() => transfer()}
+                      >
+                        轉移
+                      </button>
+                    )}
+                  </InfoField>
                 </motion.div>
               ) : (
                 <motion.div className="flex justify-center items-center h-[144px]">
