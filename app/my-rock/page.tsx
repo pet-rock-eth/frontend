@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { goerli } from "wagmi/chains";
 import { readContract, writeContract, waitForTransaction } from "@wagmi/core";
 import { contractAddress, contractABI } from "../../contract/stone";
-import { motion, useMotionValue } from "framer-motion";
+import { motion, useMotionValue, AnimatePresence } from "framer-motion";
 import { parseEther } from "ethers/lib/utils";
 import { toast } from "react-toastify";
 import CheckConnected from "../../components/checkConnected";
@@ -454,21 +454,44 @@ export default function MyRock() {
     <>
       <h1 className="text-4xl text-center mt-2 font-bold">我ㄉ石頭</h1>
       <CheckConnected>
-        {loading ? (
-          <div className="flex justify-center items-center h-[512px]">
-            <i className="bx bx-loader-alt animate-spin text-4xl"></i>
-          </div>
-        ) : rocks.length === 0 ? (
-          <div className="mt-2 text-center">你還沒有石頭喔</div>
-        ) : (
-          <div className="container">
-            <div className="mt-4 grid gap-2 grid-cols-[repeat(auto-fill,minmax(192px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(256px,1fr))]">
-              {rocks.map((rock: any) => (
-                <Rock rock={rock} key={rock.id} />
-              ))}
-            </div>
-          </div>
-        )}
+        <AnimatePresence>
+          {loading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, height: 0 }}
+              className="flex justify-center items-center h-[512px]"
+            >
+              <i className="bx bx-loader-alt animate-spin text-4xl"></i>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {!loading && rocks.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="mt-2 text-center"
+            >
+              你還沒有石頭喔
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {!loading && rocks.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="container"
+            >
+              <div className="mt-4 grid gap-2 grid-cols-[repeat(auto-fill,minmax(192px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(256px,1fr))]">
+                {rocks.map((rock: any) => (
+                  <Rock rock={rock} key={rock.id} />
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </CheckConnected>
     </>
   );
